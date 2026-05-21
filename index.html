@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAAD ABBASI TRADER</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#0a0a1a;overflow-x:hidden}
+#app{min-height:100vh;background:#0a0a1a;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.bg-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:orbFloat 8s ease-in-out infinite}
+.orb1{width:350px;height:350px;background:rgba(90,20,180,0.35);top:5%;left:5%;animation-delay:0s}
+.orb2{width:280px;height:280px;background:rgba(0,180,255,0.22);bottom:5%;right:5%;animation-delay:4s}
+.orb3{width:200px;height:200px;background:rgba(255,220,0,0.09);top:40%;left:40%;animation-delay:2s}
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-40px) scale(1.05)}}
+@keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+#lamp-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;min-height:100vh;padding:40px 20px}
+#contact-screen{display:none;flex-direction:column;align-items:center;width:100%;min-height:100vh;padding:40px 20px;justify-content:center}
+
+.lamp-wrap{position:relative;cursor:pointer;margin:30px 0;user-select:none}
+.lamp-wrap:hover .lamp-body{filter:brightness(1.2)}
+.lamp-glow{position:absolute;width:180px;height:180px;border-radius:50%;background:transparent;top:60px;left:50%;transform:translateX(-50%);transition:all 0.5s;pointer-events:none}
+.lamp-wrap.on .lamp-glow{background:radial-gradient(circle,rgba(255,220,0,0.7) 0%,rgba(255,150,0,0.3) 40%,transparent 70%);width:340px;height:340px;top:-60px}
+.lamp-cord{width:3px;height:54px;background:linear-gradient(180deg,#666,#333);margin:0 auto;border-radius:2px}
+.lamp-base-top{width:42px;height:13px;background:linear-gradient(180deg,#999,#555);margin:0 auto;border-radius:6px}
+.lamp-neck{width:18px;height:32px;background:linear-gradient(180deg,#777,#444);margin:0 auto;border-radius:3px}
+.lamp-body{width:90px;height:70px;background:linear-gradient(180deg,#c0a020,#8a6e10,#5a4a05);margin:0 auto;border-radius:50% 50% 40% 40%;position:relative;transition:filter 0.3s,box-shadow 0.4s;box-shadow:0 4px 20px rgba(0,0,0,0.5)}
+.lamp-body::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:104px;height:14px;background:linear-gradient(180deg,#888,#555);border-radius:50%}
+.lamp-wrap.on .lamp-body{background:linear-gradient(180deg,#ffe040,#ffb800,#cc8800);box-shadow:0 0 50px rgba(255,210,0,0.8),0 4px 20px rgba(0,0,0,0.4)}
+
+@keyframes boltFlash{0%{opacity:1;transform:scale(0.8)}60%{opacity:1;transform:scale(1.1)}100%{opacity:0;transform:scale(1.5)}}
+
+.lamp-title{font-size:28px;font-weight:700;color:white;letter-spacing:4px;text-align:center;margin-bottom:8px;text-shadow:0 0 40px rgba(255,200,0,0.3)}
+.lamp-subtitle{font-size:11px;color:rgba(255,255,255,0.38);letter-spacing:4px;text-align:center}
+.click-hint{margin-top:24px;font-size:12px;color:rgba(255,200,0,0.55);letter-spacing:2px;animation:hintPulse 2s ease-in-out infinite;text-align:center}
+@keyframes hintPulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+.flash-overlay{position:fixed;inset:0;background:white;opacity:0;pointer-events:none;z-index:50;transition:opacity 0.12s}
+
+/* ── CONTACT CARD ── */
+.contact-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:40px 36px;width:100%;max-width:520px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden;animation:cardIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards}
+@keyframes cardIn{from{opacity:0;transform:translateY(40px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.contact-card::before{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;background:rgba(255,200,0,0.05);pointer-events:none}
+
+.back-btn{background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);padding:8px 22px;border-radius:50px;font-size:12px;cursor:pointer;letter-spacing:1px;margin-bottom:28px;transition:all 0.3s;font-family:'Poppins',sans-serif}
+.back-btn:hover{border-color:rgba(255,200,0,0.5);color:#ffd700}
+
+.contact-header{text-align:center;margin-bottom:26px}
+.contact-icon{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,#ffd700,#ff8c00);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:30px;animation:iconSpin 0.6s ease-out}
+@keyframes iconSpin{from{transform:rotate(-30deg) scale(0)}to{transform:rotate(0) scale(1)}}
+.contact-header h2{font-size:22px;font-weight:700;color:white;letter-spacing:2px;margin-bottom:6px}
+.contact-header p{font-size:11px;color:rgba(255,255,255,0.38);letter-spacing:2px}
+
+.divider-line{height:1px;background:linear-gradient(90deg,transparent,rgba(255,200,0,0.4),transparent);margin:0 0 24px}
+
+.contact-info-row{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+.info-chip{flex:1;min-width:100px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px 8px;text-align:center}
+.info-chip .ic-icon{font-size:20px;margin-bottom:4px}
+.info-chip .ic-label{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:1px;display:block;text-transform:uppercase}
+.info-chip .ic-val{font-size:11px;color:rgba(255,255,255,0.65);font-weight:500}
+
+.field-group{margin-bottom:16px}
+.field-group label{display:block;font-size:11px;color:rgba(255,200,0,0.7);letter-spacing:2px;margin-bottom:6px;text-transform:uppercase}
+.field-group input,.field-group textarea,.field-group select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 16px;color:white;font-size:14px;font-family:'Poppins',sans-serif;outline:none;transition:border 0.3s,box-shadow 0.3s;resize:none}
+.field-group input::placeholder,.field-group textarea::placeholder{color:rgba(255,255,255,0.25)}
+.field-group input:focus,.field-group textarea:focus{border-color:rgba(255,200,0,0.5);box-shadow:0 0 0 3px rgba(255,200,0,0.08)}
+.field-group textarea{height:100px}
+
+.send-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(90deg,#ffd700,#ff8c00);color:#1a0a00;font-size:15px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all 0.3s;font-family:'Poppins',sans-serif;text-transform:uppercase;margin-top:6px}
+.send-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,180,0,0.45)}
+.send-btn:active{transform:scale(0.98)}
+.send-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+
+/* ── SUCCESS / ERROR STATE ── */
+.success-box{display:none;text-align:center;padding:30px 0}
+.success-box .s-icon{font-size:52px;margin-bottom:16px;animation:iconSpin 0.5s ease-out}
+.success-box h3{font-size:20px;font-weight:700;color:#ffd700;margin-bottom:8px;letter-spacing:2px}
+.success-box p{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6}
+
+.particles-canvas{position:fixed;inset:0;pointer-events:none;z-index:5}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+  <div class="bg-orb orb3"></div>
+  <div id="flash" class="flash-overlay"></div>
+  <canvas class="particles-canvas" id="pCanvas"></canvas>
+
+  <!-- ══ LAMP SCREEN ══ -->
+  <div id="lamp-screen">
+    <div class="lamp-title">SAAD ABBASI</div>
+    <div class="lamp-subtitle">TRADER &middot; PREMIUM PORTAL</div>
+
+    <div class="lamp-wrap" id="lamp" onclick="activateLamp()" title="Click to contact us">
+      <div class="lamp-glow"></div>
+      <div class="lamp-cord"></div>
+      <div class="lamp-base-top"></div>
+      <div class="lamp-neck"></div>
+      <div class="lamp-body"></div>
+    </div>
+
+    <div class="click-hint">&#9889; CLICK THE LAMP TO CONTACT US &#9889;</div>
+  </div>
+
+  <!-- ══ CONTACT SCREEN ══ -->
+  <div id="contact-screen">
+    <button class="back-btn" onclick="goBack()">&#8592; BACK</button>
+
+    <div class="contact-card">
+      <div class="contact-header">
+        <div class="contact-icon">&#9889;</div>
+        <h2>GET IN TOUCH</h2>
+        <p>SAAD ABBASI TRADER &middot; WE REPLY FAST</p>
+      </div>
+      <div class="divider-line"></div>
+
+      <div class="contact-info-row">
+        <div class="info-chip">
+          <div class="ic-icon">&#128222;</div>
+          <span class="ic-label">Phone</span>
+          <span class="ic-val">+92 300 0000000</span>
+        </div>
+        <div class="info-chip">
+          <div class="ic-icon">&#128140;</div>
+          <span class="ic-label">WhatsApp</span>
+          <span class="ic-val">24/7 Active</span>
+        </div>
+        <div class="info-chip">
+          <div class="ic-icon">&#127758;</div>
+          <span class="ic-label">Location</span>
+          <span class="ic-val">Pakistan</span>
+        </div>
+      </div>
+
+      <!-- ✅ FORMSPREE FORM — replace YOUR_FORM_ID with your real ID from formspree.io -->
+      <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleSubmit(event)">
+
+        <!-- Formspree: redirect back to same page after submit -->
+        <input type="hidden" name="_subject" value="New message from SAAD ABBASI TRADER website">
+
+        <div class="field-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="field-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required>
+        </div>
+
+        <div class="field-group">
+          <label for="phone">Phone / WhatsApp</label>
+          <input type="tel" id="phone" name="phone" placeholder="+92 300 0000000">
+        </div>
+
+        <div class="field-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="How can we help you?" required></textarea>
+        </div>
+
+        <button type="submit" class="send-btn" id="sendBtn">&#9889; &nbsp;SEND MESSAGE</button>
+      </form>
+
+      <!-- Success state shown after submit -->
+      <div class="success-box" id="successBox">
+        <div class="s-icon">&#10003;</div>
+        <h3>MESSAGE SENT!</h3>
+        <p>Thank you for reaching out.<br>Saad Abbasi Trader will get back to you shortly.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var lampOn = false;
+
+/* ── LAMP CLICK ── */
+function activateLamp() {
+  if (lampOn) return;
+  lampOn = true;
+  document.getElementById('lamp').classList.add('on');
+  spawnLightningBolts();
+  flashScreen();
+  spawnParticles();
+  setTimeout(function () {
+    document.getElementById('lamp-screen').style.display = 'none';
+    var cs = document.getElementById('contact-screen');
+    cs.style.display = 'flex';
+  }, 900);
+}
+
+function goBack() {
+  lampOn = false;
+  document.getElementById('contact-screen').style.display = 'none';
+  document.getElementById('lamp-screen').style.display = 'flex';
+  document.getElementById('lamp').classList.remove('on');
+  document.getElementById('contactForm').style.display = 'block';
+  document.getElementById('successBox').style.display = 'none';
+  document.getElementById('sendBtn').style.display = 'block';
+  document.getElementById('contactForm').reset();
+}
+
+/* ── FLASH ── */
+function flashScreen() {
+  var f = document.getElementById('flash');
+  f.style.opacity = '0.9';
+  setTimeout(function () { f.style.opacity = '0'; }, 130);
+}
+
+/* ── LIGHTNING BOLTS ── */
+function spawnLightningBolts() {
+  var lamp = document.getElementById('lamp');
+  var rect = lamp.getBoundingClientRect();
+  var cx = rect.left + rect.width / 2;
+  var cy = rect.top + rect.height / 2;
+  for (var i = 0; i < 8; i++) {
+    (function (idx) {
+      setTimeout(function () {
+        var bolt = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        var angle = (idx / 8) * 360 + Math.random() * 20;
+        var len = 70 + Math.random() * 90;
+        var rad = angle * Math.PI / 180;
+        var x2 = cx + Math.cos(rad) * len;
+        var y2 = cy + Math.sin(rad) * len;
+        var mx = cx + Math.cos(rad) * len * 0.5 + (Math.random() - 0.5) * 35;
+        var my = cy + Math.sin(rad) * len * 0.5 + (Math.random() - 0.5) * 35;
+        bolt.setAttribute('width', '500');
+        bolt.setAttribute('height', '500');
+        bolt.style.cssText = 'position:fixed;top:' + (cy - 250) + 'px;left:' + (cx - 250) + 'px;pointer-events:none;overflow:visible;z-index:20';
+        var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M 250 250 Q ' + (250 + (mx - cx)) + ' ' + (250 + (my - cy)) + ' ' + (250 + (x2 - cx)) + ' ' + (250 + (y2 - cy)));
+        path.setAttribute('stroke', '#ffe600');
+        path.setAttribute('stroke-width', '2.5');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke-linecap', 'round');
+        path.style.filter = 'drop-shadow(0 0 6px #ffe600) drop-shadow(0 0 14px #ff8800)';
+        bolt.appendChild(path);
+        document.body.appendChild(bolt);
+        bolt.style.animation = 'boltFlash 0.45s ease-out forwards';
+        setTimeout(function () { if (bolt.parentNode) bolt.parentNode.removeChild(bolt); }, 500);
+      }, idx * 55);
+    })(i);
+  }
+}
+
+/* ── PARTICLES ── */
+function spawnParticles() {
+  var canvas = document.getElementById('pCanvas');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  var ctx = canvas.getContext('2d');
+  var cx = window.innerWidth / 2;
+  var cy = window.innerHeight / 2 - 60;
+  var particles = [];
+  for (var i = 0; i < 70; i++) {
+    var ang = Math.random() * Math.PI * 2;
+    var spd = 2 + Math.random() * 6;
+    particles.push({
+      x: cx, y: cy,
+      vx: Math.cos(ang) * spd,
+      vy: Math.sin(ang) * spd - 3,
+      life: 1,
+      size: 2 + Math.random() * 3,
+      color: Math.random() > 0.5 ? '255,220,0' : '255,140,0'
+    });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles = particles.filter(function (p) { return p.life > 0; });
+    particles.forEach(function (p) {
+      p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life -= 0.022;
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = 'rgba(' + p.color + ',1)';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    if (particles.length > 0) requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  draw();
+}
+
+/* ── FORMSPREE AJAX SUBMIT ── */
+function handleSubmit(e) {
+  e.preventDefault();
+  var btn = document.getElementById('sendBtn');
+  var form = document.getElementById('contactForm');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  var data = new FormData(form);
+
+  fetch(form.action, {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(function (response) {
+    if (response.ok) {
+      form.style.display = 'none';
+      btn.style.display = 'none';
+      document.getElementById('successBox').style.display = 'block';
+      spawnParticles();
+    } else {
+      btn.disabled = false;
+      btn.innerHTML = '&#9889; &nbsp;SEND MESSAGE';
+      alert('Oops! Something went wrong. Please try again.');
+    }
+  })
+  .catch(function () {
+    btn.disabled = false;
+    btn.innerHTML = '&#9889; &nbsp;SEND MESSAGE';
+    alert('Network error. Please check your connection.');
+  });
+}
+</script>
+</body>
+</html>
